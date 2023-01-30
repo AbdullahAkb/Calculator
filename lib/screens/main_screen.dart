@@ -5,6 +5,7 @@ import 'package:calculator/widgets/minus_sign.dart';
 
 import 'package:calculator/widgets/number_widget.dart';
 import 'package:calculator/widgets/zero_number.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 
@@ -288,6 +289,16 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        toolbarHeight: height * 0.1,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(CupertinoIcons.clock),
+          ),
+          SizedBox(
+            width: width * 0.02,
+          ),
+        ],
         backgroundColor: Colors.black,
       ),
       body: Container(
@@ -335,10 +346,11 @@ class _MainScreenState extends State<MainScreen> {
             ),
             // SizedBox(height: height * 0.02),
             Divider(
-              color: Colors.grey,
+              color: Color(0xFFF83600),
               height: height * 0.03,
-              endIndent: 3,
-              indent: 3,
+              endIndent: 150,
+              indent: 150,
+              thickness: 1.2,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
