@@ -225,11 +225,6 @@ class _MainScreenState extends State<MainScreen> {
   void calculateEqualFun() {
     if (operandText.contains("+")) {
       setState(() {
-        // var add1 = int.parse(var1ForCalculations.toString());
-        // var add2 = int.parse(var2ForCalculations.toString());
-        // var answer = add1 + add2;
-        // print(answer);
-        // inputValue.text = answer.toString();
         String finaluserinput = inputValue.text;
         finaluserinput = inputValue.text.replaceAll('+', '+');
         Parser p = Parser();
