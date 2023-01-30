@@ -6,6 +6,7 @@ import 'package:calculator/widgets/minus_sign.dart';
 import 'package:calculator/widgets/number_widget.dart';
 import 'package:calculator/widgets/zero_number.dart';
 import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -15,7 +16,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  double answer = 0.0;
   TextEditingController inputValue = TextEditingController();
   String operandText = "";
   double value1 = 0.0;
@@ -52,10 +52,9 @@ class _MainScreenState extends State<MainScreen> {
 
 //3 number
   void funForNum3() {
-    inputValue.text = inputValue.text + fieldText;
     setState(() {
       fieldText = "3";
-
+      inputValue.text = inputValue.text + fieldText;
       if (inputValue.text.contains(operandText)) {
         var2ForCalculations = var2ForCalculations + fieldText;
       } else {
@@ -146,7 +145,7 @@ class _MainScreenState extends State<MainScreen> {
   void funForNum0() {
     setState(() {
       fieldText = "0";
-      inputValue.text = fieldText;
+      inputValue.text = inputValue.text + fieldText;
       if (inputValue.text.contains(operandText)) {
         var2ForCalculations = fieldText;
       } else {
@@ -159,7 +158,7 @@ class _MainScreenState extends State<MainScreen> {
   void funForSignX() {
     setState(() {
       fieldText = "x";
-      inputValue.text = fieldText;
+      inputValue.text = inputValue.text + fieldText;
       operandText = fieldText;
     });
   }
@@ -168,7 +167,7 @@ class _MainScreenState extends State<MainScreen> {
   void funForSignDivide() {
     setState(() {
       fieldText = "/";
-      inputValue.text = fieldText;
+      inputValue.text = inputValue.text + fieldText;
       operandText = fieldText;
     });
   }
@@ -177,7 +176,7 @@ class _MainScreenState extends State<MainScreen> {
   void funForSignAdd() {
     setState(() {
       fieldText = "+";
-      inputValue.text = fieldText;
+      inputValue.text = inputValue.text + fieldText;
       operandText = fieldText;
     });
   }
@@ -186,7 +185,7 @@ class _MainScreenState extends State<MainScreen> {
   void funForSignMinus() {
     setState(() {
       fieldText = "-";
-      inputValue.text = fieldText;
+      inputValue.text = inputValue.text + fieldText;
       operandText = fieldText;
     });
   }
@@ -222,14 +221,62 @@ class _MainScreenState extends State<MainScreen> {
     } else {}
   }
 
-  void calculateFun() {
+  void calculateEqualFun() {
     if (operandText.contains("+")) {
       setState(() {
-        answer = value1 + value2;
-        inputValue.text = answer.toString().substring(0, 2);
-        value1 = 0.0;
-        value2 = 0.0;
+        // var add1 = int.parse(var1ForCalculations.toString());
+        // var add2 = int.parse(var2ForCalculations.toString());
+        // var answer = add1 + add2;
+        // print(answer);
+        // inputValue.text = answer.toString();
+        String finaluserinput = inputValue.text;
+        finaluserinput = inputValue.text.replaceAll('+', '+');
+        Parser p = Parser();
+        Expression exp = p.parse(finaluserinput);
+        ContextModel cm = ContextModel();
+        double eval = exp.evaluate(EvaluationType.REAL, cm);
+        inputValue.text =
+            eval.toString().substring(0, eval.toString().length - 2);
         operandText = "";
+      });
+    } else if (operandText.contains("-")) {
+      setState(() {
+        String finaluserinput = inputValue.text;
+        finaluserinput = inputValue.text.replaceAll('-', '-');
+        Parser p = Parser();
+        Expression exp = p.parse(finaluserinput);
+        ContextModel cm = ContextModel();
+        double eval = exp.evaluate(EvaluationType.REAL, cm);
+        inputValue.text =
+            eval.toString().substring(0, eval.toString().length - 2);
+        operandText = "";
+      });
+    } else if (operandText.contains("x")) {
+      setState(() {
+        String finaluserinput = inputValue.text;
+        finaluserinput = inputValue.text.replaceAll('x', '*');
+        Parser p = Parser();
+        Expression exp = p.parse(finaluserinput);
+        ContextModel cm = ContextModel();
+        double eval = exp.evaluate(EvaluationType.REAL, cm);
+        inputValue.text =
+            eval.toString().substring(0, eval.toString().length - 2);
+        operandText = "";
+      });
+    } else if (operandText.contains("/")) {
+      setState(() {
+        String finaluserinput = inputValue.text;
+        finaluserinput = inputValue.text.replaceAll('/', '/');
+        Parser p = Parser();
+        Expression exp = p.parse(finaluserinput);
+        ContextModel cm = ContextModel();
+        double eval = exp.evaluate(EvaluationType.REAL, cm);
+        inputValue.text = eval.toString();
+        operandText = "";
+      });
+    } else if (inputValue.text == "" || inputValue.text.isEmpty) {
+      setState(() {
+        inputValue.text = "Err";
       });
     }
   }
@@ -400,7 +447,9 @@ class _MainScreenState extends State<MainScreen> {
                 Column(
                   children: [
                     SizedBox(height: height * 0.02),
-                    EqualSign(),
+                    EqualSign(
+                      pressed: calculateEqualFun,
+                    ),
                   ],
                 )
               ],
@@ -409,82 +458,5 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: const Text('Main Screen'),
-    //   ),
-    //   body: Column(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     children: [
-    //       Container(
-    //         margin: EdgeInsets.only(left: width * 0.07, right: width * 0.07),
-    //         child: TextFormField(
-    //           controller: inputValue,
-    //           keyboardType: TextInputType.phone,
-    //           textAlign: TextAlign.end,
-    //           decoration: InputDecoration(hintText: "0"),
-    //         ),
-    //       ),
-    //       SizedBox(
-    //         height: height * 0.1,
-    //       ),
-    //       Row(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           TextButton(
-    //               onPressed: () {
-    //                 setState(() {
-    //                   value1 = 10;
-    //                   inputValue.text = "10";
-    //                 });
-    //               },
-    //               child: Text("10")),
-    //           TextButton(
-    //               onPressed: () {
-    //                 setState(() {
-    //                   value2 = 10;
-    //                   inputValue.text = value1.toString().substring(0, 2) +
-    //                       operandText +
-    //                       value2.toString().substring(0, 2);
-    //                 });
-    //               },
-    //               child: Text("10")),
-    //         ],
-    //       ),
-    //       SizedBox(
-    //         height: height * 0.05,
-    //       ),
-    //       Row(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           TextButton(
-    //               onPressed: () {
-    //                 setState(() {
-    //                   operandText = "+";
-    //                   inputValue.text =
-    //                       value1.toString().substring(0, 2) + operandText;
-    //                 });
-    //               },
-    //               child: Text("Add")),
-    //           TextButton(
-    //               onPressed: () {
-    //                 calculateFun();
-    //               },
-    //               child: Text("Ans")),
-    //         ],
-    //       ),
-    //       TextButton(
-    //           onPressed: () {
-    //             setState(() {
-    //               inputValue.clear();
-    //               value1 = 0.0;
-    //               value2 = 0.0;
-    //               operandText = "";
-    //             });
-    //           },
-    //           child: Text("Clear"))
-    //     ],
-    //   ),
-    // );
   }
 }

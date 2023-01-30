@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
 class EqualSign extends StatelessWidget {
-  const EqualSign({Key? key}) : super(key: key);
+  final VoidCallback pressed;
+  const EqualSign({Key? key, required this.pressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return InkWell(
+      onTap: () {
+        pressed();
+      },
       child: Container(
         height: height * 0.18,
         width: width * 0.2,
