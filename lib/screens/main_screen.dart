@@ -285,15 +285,15 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         toolbarHeight: height * 0.1,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(CupertinoIcons.clock),
-          ),
-          SizedBox(
-            width: width * 0.02,
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {},
+        //     icon: Icon(CupertinoIcons.clock),
+        //   ),
+        //   SizedBox(
+        //     width: width * 0.02,
+        //   ),
+        // ],
         backgroundColor: Colors.black,
       ),
       body: Container(
@@ -329,9 +329,9 @@ class _MainScreenState extends State<MainScreen> {
                   },
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                   child: Icon(
-                    Icons.keyboard_double_arrow_left_rounded,
+                    CupertinoIcons.delete_left,
                     color: Color.fromARGB(255, 148, 148, 148),
-                    size: 45,
+                    size: 40,
                   ),
                 ),
                 SizedBox(
